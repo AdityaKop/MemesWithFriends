@@ -20,6 +20,8 @@ selection.upsert({
     memeID: 0
   })
 
+tally.upsert([{ id: 1, points: 0 }, { id: 2, points: 0 }])
+
 
 // Constant topics array
 const topics = 
@@ -34,26 +36,30 @@ const topics =
 const app = new Vue({
   el: '#app',
   template: `
-    <h1><center>Memes With Friends</center></h1>
-
-    <template v-if='active'>
+    <input type="text" v-if="in" @keyup.enter="setUsername" placeholder="Enter username">
+    <template v-if='player.active'>
      <form id="demo">
       <p>
-        <input type="text" v-model="topText">
+        <input type="text" v-model="topText" placeholder="Type top text...">
           {{topText}}
-        <input type="text" v-model="bottomText">
+        <input type="text" v-model="bottomText" placeholder="Type bottom text...">
           {{bottomText}}
       </p>
     </form>
     <button v-on:click="makeMeme">Press me</button>
-    <img src= {{imgURL}}></img>
+    <table>
+    <tr>
+    <td><div id='photo-1'></div></td>
+    <td><div id='photo-2'></div></td>
+    </tr>
+    </table>
     </template>
 
     <template v-else>
-      <button id="button1" v-on:click="buttonPressed(0)">{{button1_text}}</button>
-      <button id="button2" v-on:click="buttonPressed(1)">{{button2_text}}</button>
-      <p>score1={{score1}}</p>
-      <p>score2={{score2}}</p>
+      <button id="button1" v-on:click="buttonPressed(1)">{{button1_text}}</button>
+      <button id="button2" v-on:click="buttonPressed(2)">{{button2_text}}</button>
+      <p>Tally1={{tally1}}</p>
+      <p>Tally2={{tally2}}</p>
     </template>
 
     <!-- Stuff that's always on everyone's screen goes below -->
@@ -81,23 +87,27 @@ const app = new Vue({
         </div>
       </div>
     <!-- End Roulettes -->
+    <input type="button" value="Reset buttons" v-on:click="buttonReset"/>
   `,
   data: {
     // Our dynamic list of chat messages
-    button1_text: "meme1",
-    button2_text: "meme2",
-    score1: 0,
-    score2: 0,
+    in: true,
+    username: 'Guest',
+    button1_text: "Vote for me!",
+    button2_text: "Vote for me!",
+    tally1: 0,
+    tally2: 0,
     messages: [],
     topText: '',
     bottomText: '',
     imgURL: "",
     memer: false,
     voting: false,
-    player: { username: 'Aditya', score: 0, active: false },
+    player: { username: 'Guest', score: 0, active: true },
     currentMeme: { text: "Meme", url: "" },
     currentTopic: "Topic",
-    json: []
+    json: [],
+    temp_id: 0
   },
   created() {
 
@@ -114,6 +124,8 @@ const app = new Vue({
         // the messages feed from the bottom of the rendered list. (Otherwise
         // they appear initially at the top and move down)
         this.messages = [...allMessages].reverse()
+        var chatObj = document.getElementById("chatArea")
+        chatObj.scrollTop = chatObj.scrollHeight
       },
       // When error occurs on server
       error => console.log(error)
@@ -136,11 +148,19 @@ const app = new Vue({
     )
   },
   methods: {
+    setUsername(event) {
+      this.username = event.target.value
+      if (this.username == '') {
+        this.username = 'Guest'
+      }
+      this.in = false
+      this.player.username = this.username
      //starts spins for both roulettes
+    },
     startSpin: function(num){
       this.setRandomMeme(json)
       this.setRandomTopic(topics)
-      selection.update({ id: 1, meme: this.currentMeme, topic: this.currentTopic })
+      selection.update({ id: 1, meme: this.currentMeme, topic: this.currentTopic, memeID: this.currentMeme.memeID })
       /*var thing = this
       for (var i = 0; i < num; i++) {
         setTimeout(
@@ -150,6 +170,7 @@ const app = new Vue({
                         topic: this.currentTopic })
                      }, 10*(i/2)*(i/2));
       }*/
+      this.makeMemeTemplate();
     },
     getRandom: function(min,max){ 
       return Math.floor(Math.random() * (max-min) + min);
@@ -158,6 +179,7 @@ const app = new Vue({
       var temp = items[this.getRandom(0, items.length)]
       //console.log(temp)
       this.currentMeme = { text: temp.name, url: temp.url, memeID: temp.id }
+      this.temp_id = temp.id
     },
     setRandomTopic: function(items) {
       this.currentTopic = items[this.getRandom(0, items.length)]
@@ -180,16 +202,60 @@ const app = new Vue({
     },
 
     buttonPressed(num) {
-      if(num == 0){
+      document.getElementById("button1").disabled = true;
+      document.getElementById("button2").disabled = true;
+      if(num == 1){
         this.button1_text = "voted"
-        this.score1 += 1
+        this.tally1 += 1
+        tally.update({
+            id: 1,
+            points: points+1
+        })
       }
       else{
         this.button2_text = "voted"
-        this.score2 += 1
+        this.tally2 += 1
+        tally.update({
+            id: 2,
+            points: points+1
+        })
       }
-      document.getElementById("button1").disabled = true;
-      document.getElementById("button2").disabled = true;
+    },
+
+    voteCompare(){
+        var tally1 = 0;
+        var tally2 = 0;
+        tally1 = tally.find({id: 1}).points.fetch()
+        tally2 = tally.find({id: 2}).points.fetch()
+        if (tally1 > tally2){
+            players.update({
+                id: 1,
+                score: score+1
+            })
+        }
+        else if(tally1 == tally2){
+            players.update({
+                id: 1,
+                score: score+1
+            })
+            players.update({
+                id: 2,
+                score: score+1
+            })
+        }
+        else{
+            players.update({
+                id:2,
+                score: score+1
+            })
+        }
+    },
+
+    buttonReset(){
+        document.getElementById("button1").disabled = false;
+        document.getElementById("button2").disabled = false;
+        this.button1_text = "Vote for me!"
+        this.button2_text = "Vote for me!"
     },
 
     sendMessage(event) {
@@ -203,6 +269,8 @@ const app = new Vue({
         )
         // Clear input for next message
         event.target.value = ''
+        var chatObj = document.getElementById("chatArea")
+        chatObj.scrollTop = chatObj.scrollHeight
     },
 
      makeMeme(){
@@ -210,7 +278,7 @@ const app = new Vue({
         console.log(this.bottomText)
           console.log("Test")
         var http = new XMLHttpRequest();
-        var params = "template_id=" + "61579" + "&";
+        var params = "template_id=" + this.temp_id + "&";
         params += "username=" + 'MemesWithFriends' + "&";
         params += "password=" + 'memepoly2017' + "&";
         params += "text0=" + this.topText + "&";
@@ -221,14 +289,19 @@ const app = new Vue({
 
         http.onreadystatechange = function() {
             if(http.readyState == 4 && http.status == 200) {
-                alert(http.responseText);
+                //alert(http.responseText);
                 imgURL = JSON.parse(http.responseText).data.url
                 console.log(imgURL);
+                document.getElementById('photo-1').innerHTML = '<img src="' + imgURL + '" alt="Image" />';
+                //document.getElementById('photo-2').innerHTML = '<img src="' + imgURL + '" alt="Image" />';
             }
         }
         http.send(params);
     },
-
+    makeMemeTemplate(){
+      document.getElementById('photo-1').innerHTML = '<img src="' + this.currentMeme.url + '"alt="Image" />'; 
+      document.getElementById('photo-2').innerHTML = '<img src="' + this.currentMeme.url + '"alt="Image" />';     
+    }
 
   }
 })
