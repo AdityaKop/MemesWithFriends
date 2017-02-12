@@ -1,0 +1,26 @@
+{
+  "name": "memes-with-friends",
+  "version": "1.0.0",
+  "description": "Well it's memes..with friends. I mean. It's kinda in the name.",
+  "main": "app.js",
+  "dependencies": {
+    "bulma": "^0.3.1",
+    "express": "^4.14.1",
+    "horizon": "^2.0.0",
+    "rethinkdb": "^2.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdityaKop/MemesWithFriends.git"
+  },
+  "author": "Aditya Koppula",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdityaKop/MemesWithFriends/issues"
+  },
+  "homepage": "https://github.com/AdityaKop/MemesWithFriends#readme"
+}
