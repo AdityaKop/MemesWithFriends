@@ -1,5 +1,7 @@
 const horizon = new Horizon()
-const messages = horizon('messages')
+const messages = horizon('messages') // { id, playerName, text, datetime }
+const players = horizon('players') // { id, username, score, active }
+const tally = horizon('tally') // { id (same as player), points }
 
 const app = new Vue({
   el: '#app',
@@ -48,12 +50,10 @@ const app = new Vue({
   methods: {
     sendMessage(event) {
       messages.store({
-        text: event.target.value, // Current value inside <input> tag
-        datetime: new Date() // Warning clock skew!
+        text: event.target.value,
+        datetime: new Date()
       }).subscribe(
-          // Returns id of saved objects
           result => console.log(result),
-          // Returns server error message
           error => console.log(error)
         )
         // Clear input for next message
