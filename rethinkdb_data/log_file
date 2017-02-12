@@ -192,3 +192,39 @@
 2017-02-11T18:41:47.374012077 2.389567s info: Table 199cce8b-0c6c-4087-bb5f-fa33848e284c: This server is Raft leader for term 7. Latest log index is 28.
 2017-02-11T18:41:47.401570771 2.417126s info: Table 37a8cbdf-8325-4635-9107-06e84c236ad5: Starting a new Raft election for term 7.
 2017-02-11T18:41:47.405948350 2.421503s info: Table 37a8cbdf-8325-4635-9107-06e84c236ad5: This server is Raft leader for term 7. Latest log index is 30.
+2017-02-12T01:59:07.317973286 22850.243176s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2017-02-12T01:59:07.361565282 22850.286768s notice: Shutting down client connections...
+2017-02-12T01:59:07.527012076 22850.452215s notice: All client connections closed.
+2017-02-12T01:59:07.566929318 22850.492133s error: Error in src/rdb_protocol/artificial_table/cfeed_backend.cc at line 122:
+2017-02-12T01:59:07.566960041 22850.492162s error: Guarantee failed: [machinery->can_be_removed()] 
+2017-02-12T01:59:07.566967596 22850.492170s error: Backtrace:
+2017-02-12T01:59:07.730833508 22850.656038s error: Sun Feb 12 01:59:07 2017\n\n1 [0xb32cda]: backtrace_t::backtrace_t() at 0xb32cda (rethinkdb)\n2 [0xb331ba]: format_backtrace[abi:cxx11](bool) at 0xb331ba (rethinkdb)\n3 [0xdfe5cc]: report_fatal_error(char const*, int, char const*, ...) at 0xdfe5cc (rethinkdb)\n4 [0x9dc184]: cfeed_artificial_table_backend_t::begin_changefeed_destruction() at 0x9dc184 (rethinkdb)\n5 [0xcfacf3]: table_config_artificial_table_backend_t::~table_config_artificial_table_backend_t() at 0xcfacf3 (rethinkdb)\n6 [0xcd4c39]: admin_artificial_tables_t::~admin_artificial_tables_t() at 0xcd4c39 (rethinkdb)\n7 [0xcd1286]: do_serve(io_backender_t*, bool, base_path_t const&, metadata_file_t*, serve_info_t const&, os_signal_cond_t*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) at 0xcd1286 (rethinkdb)\n8 [0xcd379b]: serve(io_backender_t*, base_path_t const&, metadata_file_t*, serve_info_t const&, os_signal_cond_t*) at 0xcd379b (rethinkdb)\n9 [0xcb7ed8]: run_rethinkdb_serve(base_path_t const&, serve_info_t*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, server_id_t const*, server_config_versioned_t const*, cluster_semilattice_metadata_t const*, directory_lock_t*, bool*) at 0xcb7ed8 (rethinkdb)\n10 [0xcb92dd]: run_rethinkdb_porcelain(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*) at 0xcb92dd (rethinkdb)\n11 [0xcb9aad]: std::_Function_handler<void (), std::_Bind<void (*(base_path_t, name_string_t, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> >, bool, serve_info_t*, directory_lock_t*, bool*))(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*)> >::_M_invoke(std::_Any_data const&) at 0xcb9aad (rethinkdb)\n12 [0xa37c71]: starter_t::run_wrapper(std::function<void ()> const&) at 0xa37c71 (rethinkdb)\n13 [0xa3c538]: coro_t::run() at 0xa3c538 (rethinkdb)
+2017-02-12T01:59:07.733160911 22850.658364s error: Exiting.
+2017-02-12T07:49:20.539540315 0.149915s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-02-12T07:49:20.620171961 0.230549s notice: Running on Linux 4.4.0-28-generic x86_64
+2017-02-12T07:49:20.620214042 0.230589s notice: Loading data from directory /home/aditya/Projects/MemesWithFriends/rethinkdb_data
+2017-02-12T07:49:20.874310476 0.484685s info: Cache size is set to 200 MB
+2017-02-12T07:49:20.882568371 0.492943s warn: Cache size does not leave much memory for server and query overhead (available memory: 663 MB).
+2017-02-12T07:49:20.885278461 0.495653s notice: Listening for intracluster connections on port 36583
+2017-02-12T07:49:21.456194249 1.066569s notice: Listening for client driver connections on port 46054
+2017-02-12T07:49:21.459205844 1.069581s notice: Listening for administrative HTTP connections on port 36649
+2017-02-12T07:49:21.459231440 1.069606s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-12T07:49:21.459233398 1.069608s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-12T07:49:21.459235372 1.069610s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-12T07:49:21.459237050 1.069612s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-02-12T07:49:21.459239415 1.069614s notice: Server ready, "aditya_VirtualBox_opz" 7ffe2754-d42a-49fe-b6f8-78558e777641
+2017-02-12T07:49:22.364321967 1.974697s info: Table 199cce8b-0c6c-4087-bb5f-fa33848e284c: Starting a new Raft election for term 8.
+2017-02-12T07:49:22.424157057 2.034532s info: Table 199cce8b-0c6c-4087-bb5f-fa33848e284c: This server is Raft leader for term 8. Latest log index is 33.
+2017-02-12T07:49:22.453509467 2.063884s info: Table 0cdf6be7-11a6-429a-9744-ef1e0fe75b8c: Starting a new Raft election for term 8.
+2017-02-12T07:49:22.456413182 2.066788s info: Table 0cdf6be7-11a6-429a-9744-ef1e0fe75b8c: This server is Raft leader for term 8. Latest log index is 27.
+2017-02-12T07:49:22.861555175 2.471930s info: Table 6d8984da-1c32-4318-bb49-c7f3b51a1a21: Starting a new Raft election for term 3.
+2017-02-12T07:49:22.864775008 2.475150s info: Table 6d8984da-1c32-4318-bb49-c7f3b51a1a21: This server is Raft leader for term 3. Latest log index is 9.
+2017-02-12T07:49:22.990040999 2.600416s info: Table ec41c10b-aa3a-4ec4-919c-ea967592a89d: Starting a new Raft election for term 8.
+2017-02-12T07:49:22.995045492 2.605420s info: Table ec41c10b-aa3a-4ec4-919c-ea967592a89d: This server is Raft leader for term 8. Latest log index is 28.
+2017-02-12T07:49:23.148028057 2.758403s info: Table 37a8cbdf-8325-4635-9107-06e84c236ad5: Starting a new Raft election for term 8.
+2017-02-12T07:49:23.152025825 2.762401s info: Table 37a8cbdf-8325-4635-9107-06e84c236ad5: This server is Raft leader for term 8. Latest log index is 35.
+2017-02-12T08:57:06.213630064 4065.824005s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2017-02-12T08:57:06.253718124 4065.864093s notice: Shutting down client connections...
+2017-02-12T08:57:06.302618636 4065.912994s notice: All client connections closed.
+2017-02-12T08:57:06.302661844 4065.913037s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-02-12T08:57:06.373198768 4065.983574s notice: Storage engine shut down.
