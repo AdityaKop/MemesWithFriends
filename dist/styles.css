@@ -1,0 +1,18 @@
+/* Append your initials to every css class you make.
+   Ex. If I'm making a entry-button style, it would be 'entry-button-ak'
+
+	Use .class to get things by class:
+		.button {
+			color: 'red';
+			font-color: 'white';
+		}
+		
+		This would make all things that have class="button" red with white text
+
+	Use #id to get things by id:
+		#chat-button {
+			color: 'blue';
+		}
+
+		This would make only things that have id="chat-button" blue.
+*/

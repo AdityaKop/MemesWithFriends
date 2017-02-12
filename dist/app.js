@@ -15,6 +15,7 @@ const app = new Vue({
       <div id="input">
         <input @keyup.enter="sendMessage"></input>
       </div>
+      <button 
     </div>
   `,
   data: {
@@ -59,6 +60,89 @@ const app = new Vue({
         event.target.value = ''
     }
   }
+});
+
+const roulette = new Vue({
+  el: '#roulette',
+  template: `<!-- Add your HTML here -->`,
+  data: {
+    // Add any local variables you need here
+  },
+  created() {
+    // Any code you want to run the first time your component loads, put it here
+    // This code will run ONLY ONCE, when the object is initialized
+    // Use this for things like retrieving info from the database to initialize your variables
+  },
+  methods: {
+    // Add any Javascript funtions you need to use in your HTML here
+    // Ex. If you have a function you want to run when a button is pressed
+  }
 })
 
+const scoreboard = new Vue({
+  el: '#scoreboard',
+  template: `<!-- Add your HTML here -->`,,
+  data: {
+    // Add any local variables you need here
+  },
+  created() {
+    // Any code you want to run the first time your component loads, put it here
+    // This code will run ONLY ONCE, when the object is initialized
+    // Use this for things like retrieving info from the database to initialize your variables
+  },
+  methods: {
+    // Add any Javascript funtions you need to use in your HTML here
+    // Ex. If you have a function you want to run when a button is pressed
+  }
+})
 
+const chatbox = new Vue({
+  el: '#chatbox',
+  template: `<!-- Add your HTML here -->`,
+  data: {
+    // Add any local variables you need here
+  },
+  created() {
+    // Any code you want to run the first time your component loads, put it here
+    // This code will run ONLY ONCE, when the object is initialized
+    // Use this for things like retrieving info from the database to initialize your variables
+  },
+  methods: {
+    // Add any Javascript funtions you need to use in your HTML here
+    // Ex. If you have a function you want to run when a button is pressed
+  }
+})
+
+const voting = new Vue({
+  el: '#voting',
+  template: `<!-- Add your HTML here -->`,
+  data: {
+    // Add any local variables you need here
+  },
+  created() {
+    // Any code you want to run the first time your component loads, put it here
+    // This code will run ONLY ONCE, when the object is initialized
+    // Use this for things like retrieving info from the database to initialize your variables
+  },
+  methods: {
+    // Add any Javascript funtions you need to use in your HTML here
+    // Ex. If you have a function you want to run when a button is pressed
+  }
+})
+
+const memer = new Vue({
+  el: '#memer',
+  template: `<!-- Add your HTML here -->`,
+  data: {
+    // Add any local variables you need here
+  },
+  created() {
+    // Any code you want to run the first time your component loads, put it here
+    // This code will run ONLY ONCE, when the object is initialized
+    // Use this for things like retrieving info from the database to initialize your variables
+  },
+  methods: {
+    // Add any Javascript funtions you need to use in your HTML here
+    // Ex. If you have a function you want to run when a button is pressed
+  }
+})
