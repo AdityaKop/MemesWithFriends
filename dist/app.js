@@ -1,8 +1,27 @@
+// Initialize Horizon and Collections
 const horizon = new Horizon()
 const messages = horizon('messages') // { id, username, text, datetime }
 const players = horizon('players') // { id, username, score, active }
 const tally = horizon('tally') // { id (same as player), points, memeUrl }
 const selection = horizon('selection') // {id, meme, topic}
+
+// Populate default values into the the Collections
+
+/*selection.fetch().subscribe(
+        result => selection.remove(result),
+        err => console.log(err),
+        () => console.log('done')
+      )*/
+
+selection.upsert({
+    id: 1,
+    meme: { text: 'Meme' },
+    topic: 'Topic',
+    memeID: 0
+  })
+
+
+// Constant topics array
 const topics = 
 [
   "School Struggles", "Just College Things", "Music", "Food/Cooking",
@@ -55,10 +74,10 @@ const app = new Vue({
 
     <!-- Roulettes -->
       <div id="container-tv">
-        <div id="roulette-meme-tv">{{ currentMeme.text }}</div>
+        <div id="roulette-meme-tv">{{ currentMeme ? currentMeme.text : '' }}</div>
         <div id="roulette-topic-tv">{{ currentTopic }}</div>
         <div id="roulette-start-tv">
-          <input type="button" value="Start" v-on:click="startSpin"/>
+          <input type="button" value="Start" v-on:click="startSpin(50)"/>
         </div>
       </div>
     <!-- End Roulettes -->
@@ -76,15 +95,16 @@ const app = new Vue({
     memer: false,
     voting: false,
     player: { username: 'Aditya', score: 0, active: false },
-    currentMeme: { text: "Meme" },
+    currentMeme: { text: "Meme", url: "" },
     currentTopic: "Topic",
     json: []
   },
   created() {
+
     // Get the dank memes
     this.get("https://api.imgflip.com/get_memes", function(res) {
       this.json = JSON.parse(res).data.memes
-      console.log(this.json[0])
+      //console.log(this.json[0])
     })
 
     // Subscribe to messages
@@ -99,6 +119,12 @@ const app = new Vue({
       error => console.log(error)
     )
 
+    selection.watch().subscribe( allSelection => {
+      console.log(allSelection[0])
+      this.currentMeme = allSelection[0].meme
+      this.currentTopic = allSelection[0].topic
+    })
+
     // Triggers when client successfully connects to server
     horizon.onReady().subscribe(
       () => console.log("Connected to Horizon server")
@@ -111,33 +137,30 @@ const app = new Vue({
   },
   methods: {
      //starts spins for both roulettes
-    startSpin: function(){
-      this.spin_meme(json,50)
-      this.spin_topic(topics, 50)
+    startSpin: function(num){
+      this.setRandomMeme(json)
+      this.setRandomTopic(topics)
+      selection.update({ id: 1, meme: this.currentMeme, topic: this.currentTopic })
+      /*var thing = this
+      for (var i = 0; i < num; i++) {
+        setTimeout(
+          function() { thing.setRandomMeme(this.json)
+                       thing.setRandomTopic(topics)
+                       selection.update({ id: 1, meme: this.currentMeme, 
+                        topic: this.currentTopic })
+                     }, 10*(i/2)*(i/2));
+      }*/
     },
     getRandom: function(min,max){ 
       return Math.floor(Math.random() * (max-min) + min);
     },
     setRandomMeme: function(items) {
-      this.currentMeme = items[this.getRandom(0, items.length)]
+      var temp = items[this.getRandom(0, items.length)]
+      //console.log(temp)
+      this.currentMeme = { text: temp.name, url: temp.url, memeID: temp.id }
     },
     setRandomTopic: function(items) {
       this.currentTopic = items[this.getRandom(0, items.length)]
-    },
-    //randomly selects obj from collection
-    spin_meme: function(items, num){
-      var thing = this
-      for (var i = 0; i < num; i++) {
-        setTimeout(
-          function() { thing.setRandomMeme(items) }, 10*(i/2)*(i/2));
-      }
-    },
-    spin_topic: function(items, num){
-      var thing = this
-      for (var i = 0; i < num; i++) {
-        setTimeout(
-          function() { thing.setRandomTopic(items) }, 10*(i/2)*(i/2));
-      }
     },
     get: function(theUrl, callback){
       var xmlHttp = new XMLHttpRequest();
@@ -192,16 +215,9 @@ const app = new Vue({
         params += "password=" + 'memepoly2017' + "&";
         params += "text0=" + this.topText + "&";
         params += "text1=" + this.bottomText;
-        /*
-        JSON.stringify({ template_id: 61579, username: 'MemesWithFriends', 
-                                    password: "memepoly2017", text0: this.topText,
-                                    text1: this.bottomText});
-        */
         console.log(params)
         http.open("POST", "https:\/\/api.imgflip.com\/caption_image", true);
         http.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
-        /*http.setRequestHeader("Content-length", params.length);
-        http.setRequestHeader("Connection", "close");*/
 
         http.onreadystatechange = function() {
             if(http.readyState == 4 && http.status == 200) {

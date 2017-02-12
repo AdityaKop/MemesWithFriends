@@ -38,3 +38,4 @@ jspm_packages
 
 # RethinkDB
 rethinkdb_data
+rethinkdb_data/
