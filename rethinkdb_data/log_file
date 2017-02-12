@@ -169,3 +169,26 @@
 2017-02-11T18:20:23.085139394 2285.279157s notice: All client connections closed.
 2017-02-11T18:20:23.085168234 2285.279186s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
 2017-02-11T18:20:23.093028738 2285.287047s notice: Storage engine shut down.
+2017-02-11T18:41:45.560803953 0.576359s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-02-11T18:41:45.564807610 0.580365s notice: Running on Linux 4.4.0-28-generic x86_64
+2017-02-11T18:41:45.564851263 0.580406s notice: Loading data from directory /home/aditya/Projects/MemesWithFriends/rethinkdb_data
+2017-02-11T18:41:45.577148926 0.592704s info: Cache size is set to 200 MB
+2017-02-11T18:41:45.577334062 0.592889s warn: Cache size does not leave much memory for server and query overhead (available memory: 679 MB).
+2017-02-11T18:41:45.579401141 0.594956s notice: Listening for intracluster connections on port 42781
+2017-02-11T18:41:45.754465538 0.770021s notice: Listening for client driver connections on port 44602
+2017-02-11T18:41:45.755153433 0.770709s notice: Listening for administrative HTTP connections on port 35581
+2017-02-11T18:41:45.755178448 0.770733s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-11T18:41:45.755181614 0.770736s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-11T18:41:45.755184348 0.770739s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-11T18:41:45.755187347 0.770742s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-02-11T18:41:45.755189950 0.770745s notice: Server ready, "aditya_VirtualBox_opz" 7ffe2754-d42a-49fe-b6f8-78558e777641
+2017-02-11T18:41:46.791415506 1.806971s info: Table ec41c10b-aa3a-4ec4-919c-ea967592a89d: Starting a new Raft election for term 7.
+2017-02-11T18:41:46.838426856 1.853982s info: Table ec41c10b-aa3a-4ec4-919c-ea967592a89d: This server is Raft leader for term 7. Latest log index is 24.
+2017-02-11T18:41:47.075563096 2.091118s info: Table 0cdf6be7-11a6-429a-9744-ef1e0fe75b8c: Starting a new Raft election for term 7.
+2017-02-11T18:41:47.082668152 2.098223s info: Table 0cdf6be7-11a6-429a-9744-ef1e0fe75b8c: This server is Raft leader for term 7. Latest log index is 23.
+2017-02-11T18:41:47.270177079 2.285732s info: Table 6d8984da-1c32-4318-bb49-c7f3b51a1a21: Starting a new Raft election for term 2.
+2017-02-11T18:41:47.272778569 2.288334s info: Table 6d8984da-1c32-4318-bb49-c7f3b51a1a21: This server is Raft leader for term 2. Latest log index is 5.
+2017-02-11T18:41:47.367888788 2.383444s info: Table 199cce8b-0c6c-4087-bb5f-fa33848e284c: Starting a new Raft election for term 7.
+2017-02-11T18:41:47.374012077 2.389567s info: Table 199cce8b-0c6c-4087-bb5f-fa33848e284c: This server is Raft leader for term 7. Latest log index is 28.
+2017-02-11T18:41:47.401570771 2.417126s info: Table 37a8cbdf-8325-4635-9107-06e84c236ad5: Starting a new Raft election for term 7.
+2017-02-11T18:41:47.405948350 2.421503s info: Table 37a8cbdf-8325-4635-9107-06e84c236ad5: This server is Raft leader for term 7. Latest log index is 30.
